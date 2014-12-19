@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+
+<project name="dsn-datamining" default="compile" basedir=".">
+	<property environment="env" />
+
+	<target name="all" depends="clean,compile, dist" description="Clean build and dist directories, then compile" />
+
+	<target name="init">
+		<property file="build.properties" />
+
+		<!-- directories -->
+		<property name="build.dir" location="${basedir}/build" />
+		<property name="src.dir" value="${basedir}/src" />
+		<property name="dist.dir" value="${basedir}/dist" />
+		<property name="test.dir" value="${basedir}/test" />
+
+		<property name="compile.debug" value="true" />
+		<property name="compile.deprecation" value="false" />
+		<property name="compile.optimize" value="true" />
+
+		<path id="compile.classpath">
+		</path>
+	</target>
+
+	<target name="clean" depends="init">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="compile" depends="mkdirs" description="Compile Java sources">
+		<!-- Compile Java classes as necessary -->
+		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile" description="Create binary distribution">
+		<!-- Create application JAR file -->
+		<jar jarfile="${dist.dir}/${app.name}.jar" basedir="${build.dir}" />
+	</target>
+
+	<target name="help">
+		<echo>
+					Build and Run.
+
+					1) ant compile -- to compile
+					2) ant dist -- to create a war file
+					3) ant run -- to start the app
+				
+					or
+				
+					ant all -- to do all in one step
+
+					JAVA_HOME= ${env.JAVA_HOME}
+					ANT_HOME= ${env.ANT_HOME}
+						
+					classpath= ${compile.classpath}
+				
+				</echo>
+	</target>
+
+	<target name="mkdirs" depends="init">
+		<!-- Create build directories as needed -->
+		<mkdir dir="${build.dir}" />
+	</target>
+
+	<!-- 
+		<target name="testClient" depends="init">
+			<echo>calling test client</echo>
+			<java classname="org.client.Client" classpathref="classpath" fork="true">
+			</java>
+		</target>
+		-->
+
+	<!-- ===================================================== 
+			= Web Server Management (Apache Tomcat)
+			= 
+			=
+		-->
+
+
+</project>

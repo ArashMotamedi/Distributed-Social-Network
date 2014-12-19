@@ -1,0 +1,1 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="authenticate.aspx.cs" Inherits="ajax_authenticate" %>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://provider.service.interop.commons.dsn/" name="GeneralRemoteMethodService" targetNamespace="http://provider.service.interop.commons.dsn/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://localhost:8888/dsn-interop?xsd=1" namespace="http://provider.service.interop.commons.dsn/" />
+    </xsd:schema>
+  </types>
+  <message name="invokeRemoteMethod">
+    <part name="parameters" element="tns:invokeRemoteMethod" />
+  </message>
+  <message name="invokeRemoteMethodResponse">
+    <part name="parameters" element="tns:invokeRemoteMethodResponse" />
+  </message>
+  <portType name="GeneralRemoteMethod">
+    <operation name="invokeRemoteMethod">
+      <input message="tns:invokeRemoteMethod" />
+      <output message="tns:invokeRemoteMethodResponse" />
+    </operation>
+  </portType>
+  <binding name="GeneralRemoteMethodPortBinding" type="tns:GeneralRemoteMethod">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="invokeRemoteMethod">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="GeneralRemoteMethodService">
+    <port name="GeneralRemoteMethodPort" binding="tns:GeneralRemoteMethodPortBinding">
+      <soap:address location="http://localhost:8888/dsn-interop" />
+    </port>
+  </service>
+</definitions>

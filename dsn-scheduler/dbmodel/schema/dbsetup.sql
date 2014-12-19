@@ -1,0 +1,3 @@
+DROP DATABASE dsndb;
+CREATE DATABASE dsndb;
+USE dsndb;

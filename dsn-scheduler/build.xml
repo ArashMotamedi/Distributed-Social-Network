@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+
+<project name="dsn-scheduler" default="compile" basedir=".">
+	<property environment="env" />
+
+	<target name="all" depends="clean,compile, dist" description="Clean build and dist directories, then compile" />
+
+	<target name="init">
+		<property file="build.properties" />
+
+		<!-- directories -->
+		<property name="build.dir" location="${basedir}/build" />
+        <property name="src.dir" value="${basedir}/src" />
+		<property name="dist.dir" value="${basedir}/dist" />
+		<property name="test.dir" value="${basedir}/test" />
+		<property name="xml.dir" value="${basedir}/xmlData" />
+		<property name="xmlall.dir" value="${basedir}/xmlAllData" />
+		<property name="url.dir" value="${basedir}/urlData" />
+		<property name="lib.dir" value="${basedir}/lib" />
+
+		<property name="compile.debug" value="true" />
+		<property name="compile.deprecation" value="false" />
+		<property name="compile.optimize" value="true" />
+
+		<property name="sql.dir" location="${basedir}/dbmodel/schema" />
+
+		<path id="compile.classpath">
+		</path>
+		<path id="classpath">
+			<pathelement location="${test.dir}" />
+			<pathelement location="${lib.dir}/${sql.jar}" />
+		</path>
+	</target>
+
+	<target name="clean" depends="init">
+		<delete dir="${build.dir}" />
+	</target>
+
+	<target name="compile" depends="mkdirs" description="Compile Java sources">
+		<!-- Compile Java classes as necessary -->
+		<javac srcdir="${src.dir}" destdir="${build.dir}" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}">
+			<classpath refid="compile.classpath" />
+		</javac>
+		<javac srcdir="${test.dir}" destdir="${build.dir}" debug="${compile.debug}" deprecation="${compile.deprecation}" optimize="${compile.optimize}">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<target name="dist" depends="compile" description="Create binary distribution">
+		<!-- Create application JAR file -->
+		<jar jarfile="${dist.dir}/${app.name}.jar" basedir="${build.dir}" />
+	</target>
+
+	<target name="help">
+		<echo>
+					Build and Run.
+
+					1) ant compile -- to compile
+					2) ant dist -- to create a war file
+					3) ant run -- to start the app
+					4) ant all -- all above in one step
+					5) ant testbot -- test bot for all services
+
+					JAVA_HOME= ${env.JAVA_HOME}
+					ANT_HOME= ${env.ANT_HOME}
+						
+					classpath= ${compile.classpath}
+				
+				</echo>
+	</target>
+
+	<target name="mkdirs" depends="init">
+		<!-- Create build directories as needed -->
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${xml.dir}/facebook" />
+		<mkdir dir="${xml.dir}/flickr" />
+		<mkdir dir="${xml.dir}/linkedin" />
+		<mkdir dir="${xml.dir}/twitter" />
+		<mkdir dir="${xmlall.dir}" />
+
+	</target>
+
+	<!-- Bot Manager (abstract bot) -->
+	<target name="botmgr" depends="init">
+		<echo>starting botmgr</echo>
+		<java classname="dsn.bots.BotManager" classpathref="classpath" fork="true">
+			<classpath>
+				<pathelement path="${build.dir}/dsn/bots" />
+				<pathelement location="${dist.dir}/dsn-scheduler.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<!-- Test bots for all service providers -->
+	<target name="testbot" depends="init">
+		<echo>=========== Starting Testbot</echo>
+		<java classname="dsn.bots.TestBot" classpathref="classpath" fork="true">
+			<classpath>
+				<pathelement path="${build.dir}/dsn/bots" />
+				<pathelement location="${dist.dir}/dsn-scheduler.jar" />
+			</classpath>
+		</java>
+	</target>
+
+	<!-- Test scheduler -->
+	<target name="testscheduler" depends="init">
+		<echo>staring testscheduler</echo>
+		<java classname="dsn.scheduler.DSNJob" classpathref="classpath" fork="true">
+			<classpath>
+				<pathelement path="${build.dir}/dsn/bots" />
+				<pathelement location="${dist.dir}/dsn-scheduler.jar" />
+			</classpath>
+			<arg line="cldulay0504" />
+		</java>
+	</target>
+
+	<!-- DB Setup -->
+	<target name="dbsetup" depends="init">
+		<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/dsndb" userid="root" password="">
+			<classpath>
+				<pathelement path="${lib.dir}/${sql.jar}" />
+			</classpath>
+			<transaction src="${sql.dir}/dbsetup.sql" />
+			<transaction src="${sql.dir}/dsndb.sql" />
+			<transaction src="${sql.dir}/serviceproviders.sql" />
+			<transaction src="${sql.dir}/sampledata.sql" />
+		</sql>
+	</target>
+
+	<!-- DB Create -->
+	<target name="dbcreate" depends="init, dbsetup" />
+
+	<!-- DB sample data -->
+	<target name="dbsample" depends="init, dbcreate">
+		<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306/dsndb" userid="root" password="">
+			<classpath>
+				<pathelement path="${lib.dir}/${sql.jar}" />
+			</classpath>
+			<transaction src="${sql.dir}/sampledata.sql" />
+		</sql>
+	</target>
+
+	<!-- DB connect -->
+	<target name="jdbc" depends="init">
+		<echo>staring jdbc connect</echo>
+		<java classname="dsn.scheduler.JDBCHelper" classpathref="classpath" fork="true">
+			<classpath>
+				<pathelement path="${build.dir}/dsn/scheduler" />
+				<pathelement location="${dist.dir}/dsn-scheduler.jar" />
+			</classpath>
+		</java>
+	</target>
+</project>

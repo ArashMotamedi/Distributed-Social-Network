@@ -1,0 +1,174 @@
+﻿body 
+{
+	margin: 0px;
+	font-family: Cambria;
+	font-size: 13pt;
+	line-height: 20pt;
+	background-color: #8BB0BE;
+	/* background-image: url('/images/grad-body-80.png'); */ 
+	background-repeat: repeat-x;
+	background-position: top left;
+}
+
+p
+{
+	margin: 0px 0px 10px 0px;
+}
+
+a 
+{
+	font-weight: bold;
+	color: #225283;
+	text-decoration: none;
+}
+
+a:hover
+{
+	text-decoration: underline;
+}
+
+div.body
+{
+	background-color: #C8DAE0;
+	background-image: url('/images/grad-body-80.png');
+	background-repeat: repeat-x;
+	background-position: top left;
+	text-align: left;
+	width: 1000px;
+	padding: 10px;
+	border-left: 7px solid white;
+	border-right: 7px solid white;
+	height: 1100px;
+
+/*	-moz-box-shadow: 6px 0px 6px #555;
+	-webkit-box-shadow: 0px 0px 20px #476671;
+	box-shadow: 6px 0px 6px #555;
+*/
+}
+
+div.body-bar
+{
+	height: 65px;
+	background-color: #729AAB;
+	float: left;
+	width: 100%;	
+	z-index: -100;
+	position: absolute;
+	top: 15px;
+	border-bottom: 1px solid #9EBCC9;
+}
+
+div.float-right
+{
+	float: right;
+	width: 350px;
+	height: 590px;
+	padding: 15px;
+	background-image: url('/images/getting-started-bg-gradient.png');
+	background-position: top left;
+	background-repeat: no-repeat;
+}
+
+div.header-shortcuts
+{
+	float: right;
+	margin-right: 7px;
+	text-align: right;
+	margin-top: 2px;
+}
+
+div.header-shortcuts > div
+{
+	margin-bottom: 3px;
+	color: White;
+	text-shadow: black 1px 1px 2px;
+	font-weight: bold;
+}
+
+div.header
+{
+	margin-top: 5px;
+	margin-bottom: 10px;
+	margin-left: -10px;
+	background-color: #B2BFC2;
+	height: 65px;	
+	width: 1020px;
+	border-bottom: 1px solid white;
+}
+
+div.content
+{
+	
+}
+
+#pageMessage 
+{
+	height: 43px;
+	background-color: White;
+	padding: 7px;
+	margin-left: 16px;
+	margin-top: -10px;
+	margin-bottom: 10px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: White;
+	display: none;
+	width: 978px;
+	background-repeat: repeat-x;
+	background-position: 0px 1px;
+}
+
+#pageMessage.success
+{
+	border-top-color: #DCF0E1;
+	border-left-color: #DCF0E1;
+	border-right-color: #BBDAC3;
+	border-bottom-color: #BBDAC3;
+	/* background-image: url('/images/message-success-gradient.png'); */
+}
+
+#pageMessage.error
+{
+	border-top-color: #E7D6D6;
+	border-left-color: #E7D6D6;
+	border-right-color: #D3B6B6;
+	border-bottom-color: #D3B6B6;
+	/* background-image: url('/images/message-error-gradient.png'); */
+
+}
+
+#pageMessage > img.message-icon
+{
+	float: left;
+	margin-left: -39px;
+	margin-top: -14px;
+	margin-right: 10px;
+}
+
+#pageMessage > div.message
+{
+	float: left;
+}
+
+img.button
+{
+	border: 1px solid #888;
+	-moz-box-shadow: 0px 0px 5px #999;
+	-webkit-box-shadow: 0px 0px 5px #999;
+	box-shadow: 0px 0px 5px #999;
+	padding: 3px 8px;
+	background: white url('/images/grad-button.png') repeat-x bottom;
+	cursor: pointer;
+}
+img.button:hover
+{
+	border-color: #555;
+	-moz-box-shadow: 0px 0px 5px #777;
+	-webkit-box-shadow: 0px 0px 5px #777;
+	box-shadow: 0px 0px 5px #777;
+}
+
+img.large-headline
+{
+	margin: 30px 0px 30px 0px;
+}
